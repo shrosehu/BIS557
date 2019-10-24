@@ -1,0 +1,26 @@
+{
+    "collab_server" : "",
+    "contents" : "",
+    "created" : 1571521022366.000,
+    "dirty" : false,
+    "encoding" : "UTF-8",
+    "folds" : "",
+    "hash" : "4224352512",
+    "id" : "A2DD3F86",
+    "lastKnownWriteTime" : 1571717987,
+    "last_content_update" : 1571717987107,
+    "path" : "C:/Users/Rose Hu/Desktop/computational stats/RidgeRegression/R/ridge_regression.R",
+    "project_path" : "R/ridge_regression.R",
+    "properties" : {
+        "cursorPosition" : "21,33",
+        "scrollLine" : "8",
+        "tempName" : "Untitled1"
+    },
+    "read_only" : false,
+    "read_only_alternatives" : [
+    ],
+    "relative_order" : 2,
+    "source_on_save" : false,
+    "source_window" : "",
+    "type" : "r_source"
+}

@@ -1,0 +1,18 @@
+library(testthat)
+library(MASS)
+
+context("Test the output of Ridge Regression.")
+
+test_that("You ridge_regression() function works.", {
+
+  data(iris)
+
+  fit_ridge <- ridge_regression(Sepal.Length ~ ., iris, lambda=0.5)
+
+  fit_lm <- lm.ridge(Sepal.Length  ~ ., iris,lambda=0.5)
+
+  expect_equivalent(fit_lm$coefficients, fit_ridge,
+                    tolerance = 1e-3)
+})
+
+

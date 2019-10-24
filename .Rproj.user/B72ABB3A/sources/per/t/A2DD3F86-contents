@@ -1,0 +1,36 @@
+#' ridge_regression
+#'
+#' ridge_regression is used to fit linear models. It can be used to address the problem of colinearity and overfitting.
+#'
+#' @param form A symbolic description of the model to be fitted.
+#' @param data A data frame or list that contains the variables in the model.
+#' @param lambda Penalty added to beta
+#' @return The function returns a list of coefficients.
+#' @examples
+#' ridge_regression(Sepal.Length~ ., iris)
+#'
+#' @import stats
+#'
+#' @export
+
+
+ridge_regression <- function(form, data, lambda = 0) {
+  rownames(data) <- NULL
+  X <- model.matrix(form, data)
+  Y <- data[[as.character(form)[2]]][as.numeric(rownames(X))]
+  ret <- solve( crossprod(X) + diag(rep(lambda, ncol(X))) ) %*% t(X) %*% Y
+  attributes(ret)$formula <- form
+  class(ret) <- c(class(ret), "ridge_regression")
+  ret
+}
+
+predict.ridge_regression <- function(object, ...) {
+  dots <- list(...)
+  x_frame <- dots[[1]]
+  if (!is.data.frame(x_frame)) {
+    stop("The first argument should be a data.frame of values",
+             "to predict")
+  }
+  X <- model.matrix(attributes(object)$formula, x_frame)
+  X %*% object
+}

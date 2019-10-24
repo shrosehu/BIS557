@@ -1,0 +1,25 @@
+{
+    "collab_server" : "",
+    "contents" : "",
+    "created" : 1571803025044.000,
+    "dirty" : false,
+    "encoding" : "UTF-8",
+    "folds" : "",
+    "hash" : "146940658",
+    "id" : "B17D3356",
+    "lastKnownWriteTime" : 1571887928,
+    "last_content_update" : 1571887928378,
+    "path" : "G:/RidgeRegression/R/optimizing_lambda.R",
+    "project_path" : "R/optimizing_lambda.R",
+    "properties" : {
+        "cursorPosition" : "20,10",
+        "scrollLine" : "0"
+    },
+    "read_only" : false,
+    "read_only_alternatives" : [
+    ],
+    "relative_order" : 2,
+    "source_on_save" : false,
+    "source_window" : "",
+    "type" : "r_source"
+}

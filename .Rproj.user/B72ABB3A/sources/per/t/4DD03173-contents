@@ -1,0 +1,58 @@
+#' optimizing_lambda
+#'
+#' optimizing_lambda is used to find the optimal lambda in ridge regression by using cross validation
+#'
+#' @param form A symbolic description of the model to be fitted.
+#' @param data A data frame or list that contains the variables in the model.
+#' @param lambdas Penalty added to beta
+#' @param folds number of subsets of the data that is used in training and testing sample
+#' @return The function returns a list of coefficients.
+#' @examples
+#' optimizing_lambda(Sepal.Length~ ., iris,folds=10, lambdas=seq(0,1,0.05))
+#'
+#' @importFrom magrittr %>%
+#' @importFrom doParallel registerDoParallel
+#' @importFrom parallel detectCores
+#' @importFrom rsample vfold_cv testing training
+#' @importFrom foreach %do% %dopar% foreach
+#' @importFrom dplyr mutate
+#' @importFrom tibble tibble
+#' @import stats
+#' @import casl
+#' @import ggplot2
+#' @export
+
+optimizing_lambda <- function (form, data, folds=10, lambdas=seq(0,1,0.05)){
+
+i<- NULL
+lambda <- NULL
+'.'< NULL
+
+folds <- vfold_cv(data[sample.int(nrow(data), 50),], folds)
+
+# Get the first training data set.
+train1 <- training(folds$splits[[1]])
+test1 <- testing(folds$splits[[1]])
+
+if(!is.null(options("mc.cores")[[1]])){
+  cores <- options("mc.cores")[[1]]
+} else {
+  cores <- detectCores(logical = FALSE)
+}
+registerDoParallel(cores)
+
+rmses <- foreach(lambda = lambdas, .combine = rbind) %dopar% {
+  foreach(i = seq_len(nrow(folds)), .combine = c) %do% {
+    casl_util_rmse(testing(folds$splits[[i]])$as.character(formula[2]),
+                   predict(ridge_regression(form, training(folds$splits[[i]]),
+                                            lambda = lambdas),
+                           testing(folds$splits[[i]])))
+  }
+}
+
+edf <- tibble(mean = apply(rmses, 1, mean),
+              sd = apply(rmses, 1, sd),
+              lambda = lambdas) %>%
+  mutate(upper = mean + 2 * sd / sqrt(nrow(.)),
+         lower = mean - 2 * sd / sqrt(nrow(.)))
+}
